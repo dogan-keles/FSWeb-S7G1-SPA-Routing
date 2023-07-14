@@ -3,6 +3,7 @@ import axios from "axios";
 import FilmListesi from "./Filmler/FilmListesi";
 import KaydedilenlerListesi from "./Filmler/KaydedilenlerListesi";
 import Film from "./Filmler/Film";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 export default function App() {
   const [saved, setSaved] = useState([]); // Stretch: the ids of "saved" movies
@@ -32,18 +33,31 @@ export default function App() {
 
   return (
     <div>
-      <KaydedilenlerListesi
-        list={
-          [
-            /* Burası esnek */
-          ]
-        }
-      />
+      <Router>
+        <KaydedilenlerListesi
+          list={
+            [
+              /* Burası esnek */
+            ]
+          }
+        />
 
-      <div>
-        <Film />
-        <FilmListesi movies={movieList} />
-      </div>
+        <div></div>
+
+        <div>
+          {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/filmler/:id">
+              <Film />
+            </Route>
+
+            <Route path="/">
+              <FilmListesi movies={movieList} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
