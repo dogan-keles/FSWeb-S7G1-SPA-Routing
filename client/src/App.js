@@ -27,20 +27,23 @@ export default function App() {
     FilmleriAl();
   }, []);
 
-  const KaydedilenlerListesineEkle = (id) => {
+  const KaydedilenlerListesineEkle = (movObj) => {
+    // console.log("App.js: KaydedilenlerListesineEkle", id);
+    // setSaved([...saved, id]);
+    const findSaved = saved.filter((m) => m.id === movObj.id);
+    if (findSaved.length > 0) {
+      alert("Zaten Kaydedilmiş!");
+    } else {
+      setSaved([...saved, movObj]);
+    }
+
     // Burası esnek. Aynı filmin birden fazla kez "saved" e eklenmesini engelleyin
   };
 
   return (
     <div>
       <Router>
-        <KaydedilenlerListesi
-          list={
-            [
-              /* Burası esnek */
-            ]
-          }
-        />
+        <KaydedilenlerListesi list={saved} />
 
         <div></div>
 
@@ -49,7 +52,7 @@ export default function App() {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/filmler/:id">
-              <Film />
+              <Film save={KaydedilenlerListesineEkle} />
             </Route>
 
             <Route path="/">
